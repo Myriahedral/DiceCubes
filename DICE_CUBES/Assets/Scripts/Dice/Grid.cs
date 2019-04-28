@@ -5,9 +5,18 @@ using UnityEngine;
 public enum Direction { Up = -1, Down = 2, Left = -3, Right = 4 };
 
 public class Grid : MonoBehaviour {
+    public static Grid instance = null;
 
-    [SerializeField] private int columns;
-    [SerializeField] private int rows;
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(this.gameObject);
+    }
+
+    [SerializeField] private int ySize;
+    [SerializeField] private int xSize;
     [SerializeField] private float xUnit;
     [SerializeField] private float yUnit;
 
@@ -17,11 +26,11 @@ public class Grid : MonoBehaviour {
 
     private void InitializeGrid()
     {
-        diceGrid = new Dice[rows,columns];
+        diceGrid = new Dice[xSize,ySize];
 
-        for (int i = 0; i < rows; i++)
+        for (int i = 0; i < xSize; i++)
         {
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j < ySize; j++)
             {
                 SpawnDice(i, j);
             }
@@ -33,24 +42,24 @@ public class Grid : MonoBehaviour {
         InitializeGrid();
     }
 
-    public Dice GetNeighbour(int gridX, int gridY, Direction direction)
+    public Vector2Int GetNeighbour(int gridX, int gridY, Direction direction)
     {
-        Dice d = null;
+        Vector2Int d = new Vector2Int(100,100);
 
         if (direction == Direction.Up || direction == Direction.Down)
         {
             int targetX = gridX + (int)Mathf.Sign((float)direction);
-            if (targetX >= 0 && targetX < rows)
+            if (targetX >= 0 && targetX < xSize)
             {
-                d = diceGrid[targetX, gridY];
+                d = new Vector2Int(targetX, gridY);
             }
         }
         else
         {
             int targetY = gridY + (int)Mathf.Sign((float)direction);
-            if (targetY >= 0 && targetY < columns)
+            if (targetY >= 0 && targetY < ySize)
             {
-                d = diceGrid[gridX, targetY];
+                d = new Vector2Int(gridX, targetY);
             }
         }
 
@@ -59,15 +68,31 @@ public class Grid : MonoBehaviour {
 
     public Dice GetDiceFromCoordinates(int gridX, int gridY)
     {
-        return diceGrid[gridX,gridY];
+        if (gridX >= 0 && gridX < xSize && gridY >= 0 && gridY < ySize)
+        {
+            return diceGrid[gridX, gridY];
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
-    public Dice GetClosestDice(Vector3 position)
+    public Vector2Int GetClosestCoordinates(Vector3 position)
     {
-        return diceGrid[0, 0];
+        float percentX = (position.x + xSize*xUnit/ 2) / xSize * xUnit;
+        float percentY = (position.y + ySize*yUnit / 2) / ySize * yUnit;
+        percentX = Mathf.Clamp01(percentX);
+        percentY = Mathf.Clamp01(percentY);
+
+        int x = Mathf.RoundToInt((xSize - 1) * percentX);
+        int y = Mathf.RoundToInt((xSize - 1) * percentY);
+
+        return new Vector2Int(x,y);
     }
    
-    private void SpawnDice(int gridX, int gridY)
+    public void SpawnDice(int gridX, int gridY)
     {
         Vector3 position = GetWorldCoordFromGrid(gridX, gridY);
         Dice d = Instantiate(dicePrefab, position, Quaternion.identity).GetComponent<Dice>();
@@ -77,8 +102,8 @@ public class Grid : MonoBehaviour {
     private Vector3 GetWorldCoordFromGrid(int gridX, int gridY)
     {
         //Calculation of the offset because the position of the spawner must be the center of the grid
-        float xOffset = (float)(columns - 1) / 2;
-        float yOffset = (float)(rows - 1) / 2;
+        float xOffset = (float)(ySize - 1) / 2;
+        float yOffset = (float)(xSize - 1) / 2;
 
         Vector3 worldPosition = new Vector3(transform.position.x + ((gridX - xOffset) * xUnit), transform.position.y, transform.position.z + ((gridY - yOffset) * yUnit));
 

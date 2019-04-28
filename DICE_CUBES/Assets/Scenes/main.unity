@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 15469205}
   - component: {fileID: 15469207}
   - component: {fileID: 15469206}
+  - component: {fileID: 15469208}
   m_Layer: 0
   m_Name: Penguin
   m_TagString: Untagged
@@ -172,6 +173,51 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &15469208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 15469204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ca58e9334063745a1380ec294bdd21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2
+      outSlope: -2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpingTime: 0.5
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,8 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c401250e6daa40458d0b6422de0f7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 4
-  rows: 4
+  ySize: 4
+  xSize: 4
   xUnit: 2.25
   yUnit: 2.25
   dicePrefab: {fileID: 1570771145499200, guid: 2372e9cd8db8f4c4a877ef623bc32e06, type: 2}

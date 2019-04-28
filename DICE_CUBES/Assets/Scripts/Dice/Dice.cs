@@ -28,7 +28,7 @@ public class Dice : MonoBehaviour {
         InitDice();
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -48,7 +48,7 @@ public class Dice : MonoBehaviour {
         }
 
 
-    }
+    }*/
 
     public void RotateDice(Direction direction)
     {
