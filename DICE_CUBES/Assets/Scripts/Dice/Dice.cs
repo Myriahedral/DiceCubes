@@ -8,8 +8,10 @@ public class Dice : MonoBehaviour {
     private int currentFace;
 
     [Header("Animation")]
-    public AnimationCurve rotationCurve;
-    public float rotationTime;
+    [SerializeField] private GameObject mesh;
+    [SerializeField] private AnimationCurve rotationCurve;
+    [SerializeField] private float rotationTime;
+    [SerializeField] public Animator anim;
 
     public int GetOppositeFace(int faceIndex)
     {
@@ -92,28 +94,35 @@ public class Dice : MonoBehaviour {
 
     private IEnumerator RotationCoroutine(Direction direction)
     {
-        Quaternion originRotation = transform.rotation;
+        Quaternion originRotation = mesh.transform.rotation;
         Quaternion targetRotation = Quaternion.identity;
-
+        
         if (direction == Direction.Up || direction == Direction.Down)
         {
-            targetRotation = Quaternion.Euler(new Vector3(-90 * Mathf.Sign((float)direction), 0, 0)) * transform.rotation;
+            targetRotation = Quaternion.Euler(new Vector3(-90 * Mathf.Sign((float)direction), 0, 0)) * mesh.transform.localRotation;
         }
         else
         {
-            targetRotation = Quaternion.Euler(new Vector3(0, 0, -90 * Mathf.Sign((float)direction))) * transform.rotation;
+            targetRotation = Quaternion.Euler(new Vector3(0, 0, -90 * Mathf.Sign((float)direction))) * mesh.transform.localRotation;
         }
+
+        anim.Play("TinyWobble");
 
         float t = 0;
 
         while (t < rotationTime)
         {
-            transform.rotation = Quaternion.Slerp(originRotation, targetRotation, rotationCurve.Evaluate(t*1/rotationTime));
+            mesh.transform.localRotation = Quaternion.Slerp(originRotation, targetRotation, rotationCurve.Evaluate(t*1/rotationTime));
             t += Time.deltaTime;
             yield return null;
         }
 
-        transform.rotation = targetRotation;
+        mesh.transform.localRotation = targetRotation;
         
+    }
+
+    public void BigWobble()
+    {
+        anim.Play("BigWobble");
     }
 }

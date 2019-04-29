@@ -6,6 +6,7 @@ public class MovementScript : MonoBehaviour {
 
     [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private float jumpingTime;
+    [SerializeField] private AnimationClip bWobble;
     private bool canJump = true;
 
     private void Update()
@@ -43,7 +44,7 @@ public class MovementScript : MonoBehaviour {
         if (targetDice != null)
         {
             //Start Movement
-            StartCoroutine(Jump(targetDice.transform.position));
+            StartCoroutine(Jump(targetDice));
 
             //Turn dice
             Dice leftDice = Grid.instance.GetDiceFromCoordinates(currentGridPosition.x, currentGridPosition.y);
@@ -53,11 +54,13 @@ public class MovementScript : MonoBehaviour {
         
     }
 
-    private IEnumerator Jump(Vector3 targetPosition)
+    private IEnumerator Jump(Dice targetDice)
     {
         canJump = false;
         Vector3 originPosition = transform.position;
-   
+        Vector3 targetPosition = targetDice.transform.position;
+
+
         float t = 0;
 
         while (t < jumpingTime)
@@ -72,6 +75,11 @@ public class MovementScript : MonoBehaviour {
         }
 
         transform.position = new Vector3(targetPosition.x, originPosition.y, targetPosition.z);
+        targetDice.BigWobble();
+        transform.parent = targetDice.anim.gameObject.transform;
+        print(transform.parent);
+        yield return new WaitForSecondsRealtime(bWobble.length);
+        transform.parent = null;
         canJump = true;
     }
 }

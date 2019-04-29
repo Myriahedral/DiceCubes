@@ -218,6 +218,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpingTime: 0.5
+  bWobble: {fileID: 7400000, guid: 24282db221b59724099ffe5bdd335af9, type: 2}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,7 +479,7 @@ MonoBehaviour:
   xSize: 4
   xUnit: 2.25
   yUnit: 2.25
-  dicePrefab: {fileID: 1570771145499200, guid: 2372e9cd8db8f4c4a877ef623bc32e06, type: 2}
+  dicePrefab: {fileID: 1662803681773734, guid: 2372e9cd8db8f4c4a877ef623bc32e06, type: 2}
 --- !u!4 &547360040
 Transform:
   m_ObjectHideFlags: 0
