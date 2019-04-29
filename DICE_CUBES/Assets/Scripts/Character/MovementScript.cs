@@ -6,6 +6,7 @@ public class MovementScript : MonoBehaviour {
 
     [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private float jumpingTime;
+    private bool canJump = true;
 
     private void Update()
     {
@@ -31,25 +32,30 @@ public class MovementScript : MonoBehaviour {
 
     private void Move(Direction direction)
     {
-        Vector2Int currentGridPosition = Grid.instance.GetClosestCoordinates(transform.position);
-        print(currentGridPosition);
-        Vector2Int targetCoordinate = Grid.instance.GetNeighbour(currentGridPosition.x, currentGridPosition.y, direction);
-        print(targetCoordinate);
-        Dice targetDice = Grid.instance.GetDiceFromCoordinates(targetCoordinate.x, targetCoordinate.y);
-        print(targetDice);
+        if (!canJump) { return; }
 
+        //Find target position
+        Vector2Int currentGridPosition = Grid.instance.GetClosestCoordinates(transform.position);
+        Vector2Int targetCoordinate = Grid.instance.GetNeighbour(currentGridPosition.x, currentGridPosition.y, direction);
+        Dice targetDice = Grid.instance.GetDiceFromCoordinates(targetCoordinate.x, targetCoordinate.y);
+
+        
         if (targetDice != null)
         {
+            //Start Movement
             StartCoroutine(Jump(targetDice.transform.position));
+
+            //Turn dice
+            Dice leftDice = Grid.instance.GetDiceFromCoordinates(currentGridPosition.x, currentGridPosition.y);
+            leftDice.RotateDice(direction);
         }
 
-        //Init movement
-
-        //Turn dice
+        
     }
 
     private IEnumerator Jump(Vector3 targetPosition)
     {
+        canJump = false;
         Vector3 originPosition = transform.position;
    
         float t = 0;
@@ -66,5 +72,6 @@ public class MovementScript : MonoBehaviour {
         }
 
         transform.position = new Vector3(targetPosition.x, originPosition.y, targetPosition.z);
+        canJump = true;
     }
 }

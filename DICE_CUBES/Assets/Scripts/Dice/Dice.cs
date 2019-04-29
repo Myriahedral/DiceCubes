@@ -7,7 +7,9 @@ public class Dice : MonoBehaviour {
     private Dictionary<string, int> faceNeighbours = new Dictionary<string, int>();
     private int currentFace;
 
-    //[SerializeField] private AnimationData anim;
+    [Header("Animation")]
+    public AnimationCurve rotationCurve;
+    public float rotationTime;
 
     public int GetOppositeFace(int faceIndex)
     {
@@ -83,22 +85,35 @@ public class Dice : MonoBehaviour {
                 break;
         }
 
-        if (direction == Direction.Up || direction == Direction.Down)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(-90 * Mathf.Sign((float)direction), 0, 0)) * transform.rotation;
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0,0,-90 * Mathf.Sign((float)direction))) * transform.rotation;
-        }
-
         print(currentFace+1);
 
-        //Animation
+        StartCoroutine(RotationCoroutine(direction));
     }
 
     private IEnumerator RotationCoroutine(Direction direction)
     {
-        yield return null;
+        Quaternion originRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.identity;
+
+        if (direction == Direction.Up || direction == Direction.Down)
+        {
+            targetRotation = Quaternion.Euler(new Vector3(-90 * Mathf.Sign((float)direction), 0, 0)) * transform.rotation;
+        }
+        else
+        {
+            targetRotation = Quaternion.Euler(new Vector3(0, 0, -90 * Mathf.Sign((float)direction))) * transform.rotation;
+        }
+
+        float t = 0;
+
+        while (t < rotationTime)
+        {
+            transform.rotation = Quaternion.Slerp(originRotation, targetRotation, rotationCurve.Evaluate(t*1/rotationTime));
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = targetRotation;
+        
     }
 }

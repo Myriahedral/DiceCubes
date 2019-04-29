@@ -81,8 +81,8 @@ public class Grid : MonoBehaviour {
 
     public Vector2Int GetClosestCoordinates(Vector3 position)
     {
-        float percentX = (position.x + (xSize-1)*xUnit/ 2) / ((xSize-1) * xUnit); print(percentX);
-        float percentY = (position.z + (ySize-1)*yUnit / 2) / ((ySize-1) * yUnit); print(percentY);
+        float percentX = (position.x + (xSize-1)*xUnit/ 2) / ((xSize-1) * xUnit); 
+        float percentY = (position.z + (ySize-1)*yUnit / 2) / ((ySize-1) * yUnit); 
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 
