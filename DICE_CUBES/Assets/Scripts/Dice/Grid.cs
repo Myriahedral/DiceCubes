@@ -28,9 +28,9 @@ public class Grid : MonoBehaviour {
     {
         diceGrid = new Dice[xSize,ySize];
 
-        for (int i = 0; i < xSize; i++)
+        for (int j = 0; j < ySize; j++)
         {
-            for (int j = 0; j < ySize; j++)
+            for (int i = 0; i < xSize; i++)
             {
                 SpawnDice(i, j);
             }
@@ -46,7 +46,7 @@ public class Grid : MonoBehaviour {
     {
         Vector2Int d = new Vector2Int(100,100);
 
-        if (direction == Direction.Up || direction == Direction.Down)
+        if (direction == Direction.Left || direction == Direction.Right)
         {
             int targetX = gridX + (int)Mathf.Sign((float)direction);
             if (targetX >= 0 && targetX < xSize)
@@ -56,7 +56,7 @@ public class Grid : MonoBehaviour {
         }
         else
         {
-            int targetY = gridY + (int)Mathf.Sign((float)direction);
+            int targetY = gridY - (int)Mathf.Sign((float)direction);
             if (targetY >= 0 && targetY < ySize)
             {
                 d = new Vector2Int(gridX, targetY);
@@ -81,13 +81,13 @@ public class Grid : MonoBehaviour {
 
     public Vector2Int GetClosestCoordinates(Vector3 position)
     {
-        float percentX = (position.x + xSize*xUnit/ 2) / xSize * xUnit;
-        float percentY = (position.y + ySize*yUnit / 2) / ySize * yUnit;
+        float percentX = (position.x + (xSize-1)*xUnit/ 2) / ((xSize-1) * xUnit); print(percentX);
+        float percentY = (position.z + (ySize-1)*yUnit / 2) / ((ySize-1) * yUnit); print(percentY);
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 
         int x = Mathf.RoundToInt((xSize - 1) * percentX);
-        int y = Mathf.RoundToInt((xSize - 1) * percentY);
+        int y = Mathf.RoundToInt((ySize - 1) * percentY);
 
         return new Vector2Int(x,y);
     }
@@ -102,8 +102,8 @@ public class Grid : MonoBehaviour {
     private Vector3 GetWorldCoordFromGrid(int gridX, int gridY)
     {
         //Calculation of the offset because the position of the spawner must be the center of the grid
-        float xOffset = (float)(ySize - 1) / 2;
-        float yOffset = (float)(xSize - 1) / 2;
+        float xOffset = (float)(xSize - 1) / 2;
+        float yOffset = (float)(ySize - 1) / 2;
 
         Vector3 worldPosition = new Vector3(transform.position.x + ((gridX - xOffset) * xUnit), transform.position.y, transform.position.z + ((gridY - yOffset) * yUnit));
 
