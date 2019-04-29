@@ -63,27 +63,27 @@ public class Dice : MonoBehaviour {
         switch (direction)
         {
             case Direction.Down:
-                currentFace = faceNeighbours[Direction.Up.ToString()];
-                faceNeighbours[Direction.Down.ToString()] = previousFace;
-                faceNeighbours[Direction.Up.ToString()] = GetOppositeFace(previousFace);
-                break;
-
-            case Direction.Up:
                 currentFace = faceNeighbours[Direction.Down.ToString()];
                 faceNeighbours[Direction.Up.ToString()] = previousFace;
                 faceNeighbours[Direction.Down.ToString()] = GetOppositeFace(previousFace);
                 break;
 
-            case Direction.Left:
-                currentFace = faceNeighbours[Direction.Right.ToString()];
-                faceNeighbours[Direction.Left.ToString()] = previousFace;
-                faceNeighbours[Direction.Right.ToString()] = GetOppositeFace(previousFace);
+            case Direction.Up:
+                currentFace = faceNeighbours[Direction.Up.ToString()];
+                faceNeighbours[Direction.Down.ToString()] = previousFace;
+                faceNeighbours[Direction.Up.ToString()] = GetOppositeFace(previousFace);
                 break;
 
-            case Direction.Right:
+            case Direction.Left:
                 currentFace = faceNeighbours[Direction.Left.ToString()];
                 faceNeighbours[Direction.Right.ToString()] = previousFace;
                 faceNeighbours[Direction.Left.ToString()] = GetOppositeFace(previousFace);
+                break;
+
+            case Direction.Right:
+                currentFace = faceNeighbours[Direction.Right.ToString()];
+                faceNeighbours[Direction.Left.ToString()] = previousFace;
+                faceNeighbours[Direction.Right.ToString()] = GetOppositeFace(previousFace);
                 break;
         }
 
@@ -99,11 +99,11 @@ public class Dice : MonoBehaviour {
         
         if (direction == Direction.Up || direction == Direction.Down)
         {
-            targetRotation = Quaternion.Euler(new Vector3(-90 * Mathf.Sign((float)direction), 0, 0)) * mesh.transform.localRotation;
+            targetRotation = Quaternion.Euler(new Vector3(90 * Mathf.Sign((float)direction), 0, 0)) * mesh.transform.localRotation;
         }
         else
         {
-            targetRotation = Quaternion.Euler(new Vector3(0, 0, -90 * Mathf.Sign((float)direction))) * mesh.transform.localRotation;
+            targetRotation = Quaternion.Euler(new Vector3(0, 0, 90 * Mathf.Sign((float)direction))) * mesh.transform.localRotation;
         }
 
         anim.Play("TinyWobble");

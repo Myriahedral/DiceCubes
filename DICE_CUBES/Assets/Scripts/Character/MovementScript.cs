@@ -40,7 +40,26 @@ public class MovementScript : MonoBehaviour {
         Vector2Int targetCoordinate = Grid.instance.GetNeighbour(currentGridPosition.x, currentGridPosition.y, direction);
         Dice targetDice = Grid.instance.GetDiceFromCoordinates(targetCoordinate.x, targetCoordinate.y);
 
-        
+        switch (direction)
+        {
+            case Direction.Down:
+                transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                break;
+
+            case Direction.Up:
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                break;
+
+            case Direction.Left:
+                transform.rotation = Quaternion.Euler(new Vector3(0, 90 * Mathf.Sign((float)direction), 0));
+                break;
+
+            case Direction.Right:
+                transform.rotation = Quaternion.Euler(new Vector3(0, 90 * Mathf.Sign((float)direction), 0));
+                break;
+        }
+
+
         if (targetDice != null)
         {
             //Start Movement
@@ -75,11 +94,12 @@ public class MovementScript : MonoBehaviour {
         }
 
         transform.position = new Vector3(targetPosition.x, originPosition.y, targetPosition.z);
+
         targetDice.BigWobble();
         transform.parent = targetDice.anim.gameObject.transform;
-        print(transform.parent);
         yield return new WaitForSecondsRealtime(bWobble.length);
         transform.parent = null;
+
         canJump = true;
     }
 }
