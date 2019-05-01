@@ -244,7 +244,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.8392157, b: 0.97322816, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -477,8 +477,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ySize: 4
   xSize: 4
-  xUnit: 2.25
-  yUnit: 2.25
+  xUnit: 2.1
+  yUnit: 2.1
   dicePrefab: {fileID: 1662803681773734, guid: 2372e9cd8db8f4c4a877ef623bc32e06, type: 2}
 --- !u!4 &547360040
 Transform:
