@@ -25,34 +25,14 @@ public class Dice : MonoBehaviour {
         faceNeighbours[Direction.Down.ToString()] = 1;
         faceNeighbours[Direction.Left.ToString()] = 2;
         faceNeighbours[Direction.Right.ToString()] = 3;
+
+        anim.Play("Idle", 0, Random.Range(0f, 100f));
     }
 
     private void Start()
     {
         InitDice();
     }
-
-    /*private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            RotateDice(Direction.Up);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            RotateDice(Direction.Down);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            RotateDice(Direction.Left);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            RotateDice(Direction.Right);
-        }
-
-
-    }*/
 
     public void RotateDice(Direction direction)
     {
