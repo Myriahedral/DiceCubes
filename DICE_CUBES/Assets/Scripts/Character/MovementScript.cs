@@ -7,34 +7,39 @@ public class MovementScript : MonoBehaviour {
     [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private float jumpingTime;
     [SerializeField] private AnimationClip bWobble;
-    public bool canJump = false;
+    [SerializeField] private GameObject ripplePart;
+    private bool canJump = false;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Move(Direction.Up);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Move(Direction.Down);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Move(Direction.Left);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Move(Direction.Right);
-        }
+        if (!canJump) { return; }
 
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                Move(Direction.Up);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                Move(Direction.Down);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                Move(Direction.Left);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                Move(Direction.Right);
+            }
 
+    }
+
+    public void SetCanJump(bool value)
+    {
+        canJump = value;
     }
 
     private void Move(Direction direction)
     {
-        if (!canJump) { return; }
-
         //Find target position
         Vector2Int currentGridPosition = Grid.instance.GetClosestCoordinates(transform.position);
         Vector2Int targetCoordinate = Grid.instance.GetNeighbour(currentGridPosition.x, currentGridPosition.y, direction);
@@ -64,6 +69,8 @@ public class MovementScript : MonoBehaviour {
         {
             //Start Movement
             StartCoroutine(Jump(targetDice));
+
+            GameManager.instance.Moved();
 
             //Turn dice
             Dice leftDice = Grid.instance.GetDiceFromCoordinates(currentGridPosition.x, currentGridPosition.y);
@@ -96,6 +103,7 @@ public class MovementScript : MonoBehaviour {
         transform.position = new Vector3(targetPosition.x, originPosition.y, targetPosition.z);
 
         targetDice.BigWobble();
+        Instantiate(ripplePart, targetDice.transform.position, Quaternion.identity);
         transform.parent = targetDice.anim.gameObject.transform;
         yield return new WaitForSecondsRealtime(bWobble.length);
         transform.parent = null;

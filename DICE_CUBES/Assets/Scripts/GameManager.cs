@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour {
 
@@ -20,10 +21,21 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private int nbrOfMovesPerTurn;
     private int score;
 
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI movesLeftUI;
+    [SerializeField] private TextMeshProUGUI scoreUI;
+
+    private void Start()
+    {
+        StartGame();
+    }
+
     public void StartGame()
     {
-        //If cannt move
-        //EndGame()
+        scoreUI.text = 0.ToString();
+        score = 0;
+        movesLeftUI.text = nbrOfMovesPerTurn.ToString();
+        StartTurn();
     }
 
     public void ResolveTurn()
@@ -33,16 +45,25 @@ public class GameManager : MonoBehaviour {
 
     public void StartTurn()
     {
-        player.canJump = true;
+        //If cannt move
+        //EndGame()
+
+        player.SetCanJump(true);
+
+        //Init nbr of jumps
         movesLeft = nbrOfMovesPerTurn;
+        movesLeftUI.text = movesLeft.ToString();
+
     }
 
     public void Moved()
     {
         movesLeft--;
+        movesLeftUI.text = movesLeft.ToString();
+
         if (movesLeft <= 0)
         {
-            player.canJump = false;
+            player.SetCanJump(false);
             ResolveTurn();
         }
     }

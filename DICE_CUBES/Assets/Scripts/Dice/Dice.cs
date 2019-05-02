@@ -67,8 +67,6 @@ public class Dice : MonoBehaviour {
                 break;
         }
 
-        print(currentFace+1);
-
         StartCoroutine(RotationCoroutine(direction));
     }
 
