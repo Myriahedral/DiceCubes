@@ -16,9 +16,14 @@ public class GameManager : MonoBehaviour {
 
     private int movesLeft;
 
+    [SerializeField] private MovementScript player;
+    [SerializeField] private int nbrOfMovesPerTurn;
+    private int score;
+
     public void StartGame()
     {
-
+        //If cannt move
+        //EndGame()
     }
 
     public void ResolveTurn()
@@ -28,10 +33,21 @@ public class GameManager : MonoBehaviour {
 
     public void StartTurn()
     {
-
+        player.canJump = true;
+        movesLeft = nbrOfMovesPerTurn;
     }
 
-    public void EndGame(bool won)
+    public void Moved()
+    {
+        movesLeft--;
+        if (movesLeft <= 0)
+        {
+            player.canJump = false;
+            ResolveTurn();
+        }
+    }
+
+    public void EndGame()
     {
 
     }

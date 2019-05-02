@@ -7,7 +7,7 @@ public class MovementScript : MonoBehaviour {
     [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private float jumpingTime;
     [SerializeField] private AnimationClip bWobble;
-    private bool canJump = true;
+    public bool canJump = false;
 
     private void Update()
     {
