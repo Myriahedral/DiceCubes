@@ -5,7 +5,9 @@ using UnityEngine;
 public class Dice : MonoBehaviour {
 
     private Dictionary<string, int> faceNeighbours = new Dictionary<string, int>();
-    private int currentFace;
+    public int currentFace;
+
+    public Vector2Int coord;
 
     [Header("Animation")]
     [SerializeField] private GameObject mesh;
@@ -17,9 +19,33 @@ public class Dice : MonoBehaviour {
     [SerializeField] private Sprite[] faceSpr = new Sprite[6];
     [SerializeField] private SpriteRenderer[] faceRend = new SpriteRenderer[6];
 
+    [Header("Patterns")]
+    public bool isRoot;
+    public List<Dice> otherDice = new List<Dice>();
+    public Dice root;
+
     public int GetOppositeFace(int faceIndex)
     {
         return 5 - faceIndex;
+    }
+
+    public override bool Equals(System.Object obj)
+    {
+        // If parameter is null return false.
+        if (obj == null)
+        {
+            return false;
+        }
+
+        // If parameter cannot be cast to Person return false.
+        Dice d = obj as Dice;
+        if ((System.Object)d == null)
+        {
+            return false;
+        }
+
+        // Return true if the fields match:
+        return (coord == d.coord);
     }
 
     private void InitDice()

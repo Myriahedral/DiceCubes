@@ -25,11 +25,6 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI movesLeftUI;
     [SerializeField] private TextMeshProUGUI scoreUI;
 
-    private void Start()
-    {
-        StartGame();
-    }
-
     public void StartGame()
     {
         scoreUI.text = 0.ToString();
@@ -40,7 +35,7 @@ public class GameManager : MonoBehaviour {
 
     public void ResolveTurn()
     {
-
+        StartCoroutine(Grid.instance.CheckForPatterns());
     }
 
     public void StartTurn()
@@ -48,8 +43,10 @@ public class GameManager : MonoBehaviour {
         //If cannt move
         //EndGame()
 
+        //Reset
+        Grid.instance.ClearDice();
         player.SetTurnOver(false);
-        print("turn starts");
+
         //Init nbr of jumps
         movesLeft = nbrOfMovesPerTurn;
         movesLeftUI.text = movesLeft.ToString();
@@ -64,9 +61,14 @@ public class GameManager : MonoBehaviour {
         if (movesLeft <= 0)
         {
             player.SetTurnOver(true);
-            print("stop");
-            ResolveTurn();
+            Invoke("ResolveTurn", 1f);
         }
+    }
+
+    public void AddScore(int score)
+    {
+        score += score;
+        scoreUI.text = score.ToString();
     }
 
     public void EndGame()

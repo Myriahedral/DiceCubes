@@ -40,6 +40,7 @@ public class Grid : MonoBehaviour {
     private void Start()
     {
         InitializeGrid();
+        GameManager.instance.StartGame();
     }
 
     public Vector2Int GetNeighbour(int gridX, int gridY, Direction direction)
@@ -96,6 +97,7 @@ public class Grid : MonoBehaviour {
     {
         Vector3 position = GetWorldCoordFromGrid(gridX, gridY);
         Dice d = Instantiate(dicePrefab, position, Quaternion.identity).GetComponent<Dice>();
+        d.coord = new Vector2Int(gridX, gridY);
         diceGrid[gridX,gridY] = d;
     }
 
@@ -108,5 +110,116 @@ public class Grid : MonoBehaviour {
         Vector3 worldPosition = new Vector3(transform.position.x + ((gridX - xOffset) * xUnit), transform.position.y, transform.position.z + ((gridY - yOffset) * yUnit));
 
         return worldPosition;
+    }
+
+    ///////////////////////////GAME RULES
+    ///
+    public IEnumerator CheckForPatterns()
+    {
+        for (int  i = 0;  i < xSize;  i++)
+        {
+            for (int j = 0; j < ySize; j++)
+            {
+                CheckNeighbours(i, j);
+                yield return null;
+            }
+        }
+    }
+
+    public void CheckNeighbours(int gridX, int gridY)
+    {
+        Dice currentDice = GetDiceFromCoordinates(gridX, gridY);
+        Dice[] neighbours = new Dice[4];
+
+        //Coordinates
+        Vector2Int up = GetNeighbour(gridX, gridY, Direction.Up);
+        Vector2Int down = GetNeighbour(gridX, gridY, Direction.Down);
+        Vector2Int left = GetNeighbour(gridX, gridY, Direction.Left);
+        Vector2Int right = GetNeighbour(gridX, gridY, Direction.Right);
+
+        neighbours[0] = GetDiceFromCoordinates(up.x, up.y);
+        neighbours[1] = GetDiceFromCoordinates(down.x, down.y);
+        neighbours[2] = GetDiceFromCoordinates(left.x, left.y);
+        neighbours[3] = GetDiceFromCoordinates(right.x, right.y);
+
+        //Not linked to another dice
+        if (currentDice.root == null)
+        {
+            foreach (Dice d in neighbours)
+            {
+                if (d != null && d.currentFace == currentDice.currentFace && d.root == null)
+                {
+                    currentDice.isRoot = true;
+                    if (currentDice.otherDice.Contains(d) == false)
+                    {
+                        currentDice.otherDice.Add(d);
+                    }
+                    d.root = currentDice;
+                }
+            }
+        }
+        else //Already linked to another dice
+        {
+            foreach (Dice d in neighbours)
+            {
+                if (d != null && d.currentFace == currentDice.currentFace && d != currentDice.root && d.root == null)
+                {
+                    if (currentDice.root.otherDice.Contains(d) == false)
+                    {
+                        currentDice.root.otherDice.Add(d);
+                    }
+                    d.root = currentDice.root;
+                }
+            }
+        }
+
+        bool wonPoints = false;
+
+        foreach (Dice d in diceGrid)
+        {
+            if (d.isRoot && d.otherDice.Count >= 2)
+            {
+                d.otherDice.Add(d);
+                StartCoroutine(WinningCoroutine(d.otherDice.ToArray(), d.currentFace));
+                wonPoints = true;
+            }
+        }
+
+        if (!wonPoints)
+        {
+            GameManager.instance.StartTurn();
+        }
+    }
+
+    public void ClearDice()
+    {
+        foreach (Dice d in diceGrid)
+        {
+            d.isRoot = false;
+            d.root = null;
+            d.otherDice = new List<Dice>();
+        }
+    }
+
+    public IEnumerator WinningCoroutine(Dice[] diceGroup, int face)
+    {
+        foreach (Dice d in diceGroup)
+        {
+            d.anim.Play("Swirl");
+        }
+
+        int score = diceGroup.Length * (diceGroup.Length / 2);
+        GameManager.instance.AddScore(score);
+
+        yield return new WaitForSeconds(1f);
+
+        foreach (Dice d in diceGroup)
+        {
+            Destroy(d.gameObject);
+        }
+
+        GameManager.instance.StartTurn();
+
+        yield return null;
     }
 }
