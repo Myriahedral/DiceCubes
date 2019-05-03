@@ -13,6 +13,10 @@ public class Dice : MonoBehaviour {
     [SerializeField] private float rotationTime;
     [SerializeField] public Animator anim;
 
+    [Header("Faces")]
+    [SerializeField] private Sprite[] faceSpr = new Sprite[6];
+    [SerializeField] private SpriteRenderer[] faceRend = new SpriteRenderer[6];
+
     public int GetOppositeFace(int faceIndex)
     {
         return 5 - faceIndex;
@@ -20,11 +24,42 @@ public class Dice : MonoBehaviour {
 
     private void InitDice()
     {
-        currentFace = 0;
-        faceNeighbours[Direction.Up.ToString()] = 4;
-        faceNeighbours[Direction.Down.ToString()] = 1;
-        faceNeighbours[Direction.Left.ToString()] = 2;
-        faceNeighbours[Direction.Right.ToString()] = 3;
+        List<int> faces = new List<int>();
+        faces.Add(0);
+        faces.Add(1);
+        faces.Add(2);
+        faces.Add(3);
+        faces.Add(4);
+        faces.Add(5);
+
+        //Top and opposite
+        int t = faces[Random.Range(0, faces.Count)];
+        currentFace = t;
+        faceRend[0].sprite = faceSpr[t];
+        faces.Remove(t);
+        int o = 5 - t;
+        faceRend[1].sprite = faceSpr[o];
+        faces.Remove(o);
+
+        //Up and Down
+        int u = faces[Random.Range(0, faces.Count)];
+        faceNeighbours[Direction.Up.ToString()] = u;
+        faceRend[2].sprite = faceSpr[u];
+        faces.Remove(u);
+        int d = 5 - u;
+        faceNeighbours[Direction.Down.ToString()] = d;
+        faceRend[3].sprite = faceSpr[d];
+        faces.Remove(d);
+
+        //Up and Down
+        int l = faces[Random.Range(0, faces.Count)];
+        faceNeighbours[Direction.Left.ToString()] = l;
+        faceRend[4].sprite = faceSpr[l];
+        faces.Remove(l);
+        int r = 5 - l;
+        faceNeighbours[Direction.Right.ToString()] = r;
+        faceRend[5].sprite = faceSpr[r];
+        faces.Remove(r);
 
         anim.Play("Idle", 0, Random.Range(0f, 100f));
     }
@@ -66,7 +101,7 @@ public class Dice : MonoBehaviour {
                 faceNeighbours[Direction.Right.ToString()] = GetOppositeFace(previousFace);
                 break;
         }
-
+        print(currentFace);
         StartCoroutine(RotationCoroutine(direction));
     }
 

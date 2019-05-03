@@ -48,8 +48,8 @@ public class GameManager : MonoBehaviour {
         //If cannt move
         //EndGame()
 
-        player.SetCanJump(true);
-
+        player.SetTurnOver(false);
+        print("turn starts");
         //Init nbr of jumps
         movesLeft = nbrOfMovesPerTurn;
         movesLeftUI.text = movesLeft.ToString();
@@ -63,7 +63,8 @@ public class GameManager : MonoBehaviour {
 
         if (movesLeft <= 0)
         {
-            player.SetCanJump(false);
+            player.SetTurnOver(true);
+            print("stop");
             ResolveTurn();
         }
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44950032, g: 0.49649543, b: 0.55914634, a: 1}
+  m_IndirectSpecularColor: {r: 0.44950086, g: 0.49649626, b: 0.5591468, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -220,7 +220,6 @@ MonoBehaviour:
   jumpingTime: 0.5
   bWobble: {fileID: 7400000, guid: 24282db221b59724099ffe5bdd335af9, type: 2}
   ripplePart: {fileID: 1590468393499788, guid: f6baba2518f386847ad6b16934ed0921, type: 2}
-  canJump: 1
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -5003,12 +5002,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 400873806}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.9823838, y: -0.2329773, z: 1.3557527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 716164632}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &400873808
 MonoBehaviour:
@@ -5259,7 +5258,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 264578135}
-  - {fileID: 400873807}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5391,8 +5389,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 10
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ac1c094faa243d48978cef66c6e9223, type: 2}
+  m_sharedMaterial: {fileID: 21985991592238550, guid: 5ac1c094faa243d48978cef66c6e9223,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5608,8 +5607,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 150
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ac1c094faa243d48978cef66c6e9223, type: 2}
+  m_sharedMaterial: {fileID: 21985991592238550, guid: 5ac1c094faa243d48978cef66c6e9223,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5763,8 +5763,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'score :'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ac1c094faa243d48978cef66c6e9223, type: 2}
+  m_sharedMaterial: {fileID: 21985991592238550, guid: 5ac1c094faa243d48978cef66c6e9223,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

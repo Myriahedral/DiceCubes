@@ -9,10 +9,11 @@ public class MovementScript : MonoBehaviour {
     [SerializeField] private AnimationClip bWobble;
     [SerializeField] private GameObject ripplePart;
     private bool canJump = false;
+    private bool turnOver = true;
 
     private void Update()
     {
-        if (!canJump) { return; }
+        if (turnOver) { return; }
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
@@ -33,9 +34,9 @@ public class MovementScript : MonoBehaviour {
 
     }
 
-    public void SetCanJump(bool value)
+    public void SetTurnOver(bool value)
     {
-        canJump = value;
+        turnOver = value;
     }
 
     private void Move(Direction direction)

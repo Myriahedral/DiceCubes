@@ -377,6 +377,20 @@ MonoBehaviour:
     m_RotationOrder: 4
   rotationTime: 0.25
   anim: {fileID: 95573320248537800}
+  faceSpr:
+  - {fileID: 21300000, guid: 47d3df33069975d4b8fc6b6b08fe85ac, type: 3}
+  - {fileID: 21300000, guid: 1f306391d5a01e04d82be5d9674d3a9a, type: 3}
+  - {fileID: 21300000, guid: 62c7e617d94bf114aa5fccca8e0a3ef9, type: 3}
+  - {fileID: 21300000, guid: 9da5dfb00f7f6674fa5aa1a0e2541594, type: 3}
+  - {fileID: 21300000, guid: 160721aa7e6312f449dec393c2acc7a5, type: 3}
+  - {fileID: 21300000, guid: e94da26145d2d18418512c28e04479f9, type: 3}
+  faceRend:
+  - {fileID: 212314334609792062}
+  - {fileID: 212260892057860166}
+  - {fileID: 212482466860625866}
+  - {fileID: 212278199168156806}
+  - {fileID: 212740497637937114}
+  - {fileID: 212509257528089800}
 --- !u!212 &212260892057860166
 SpriteRenderer:
   m_ObjectHideFlags: 1
